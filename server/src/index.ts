@@ -1,12 +1,11 @@
+import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/authRoutes.js";
-
-dotenv.config();
+import itineraryRoutes from "./routes/itineraryRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +21,7 @@ app.use(
 app.use(passport.initialize());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/itineraries", itineraryRoutes);
 
 mongoose
   .connect(process.env.MONGODB_URI as string)
