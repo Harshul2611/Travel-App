@@ -25,7 +25,7 @@ export const setAccessToken = (token: string | null) => {
 export const getAccessToken = () => accessToken;
 
 const api = axios.create({
-  baseURL: "http://localhost:5001/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // sends httpOnly cookie automatically
 });
 
@@ -70,7 +70,7 @@ api.interceptors.response.use(
       try {
         // Call refresh — cookie sent automatically
         const response = await axios.post(
-          "http://localhost:5001/api/auth/refresh",
+          `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
           {},
           { withCredentials: true },
         );
