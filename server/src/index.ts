@@ -23,10 +23,18 @@ app.use(passport.initialize());
 app.use("/api/auth", authRoutes);
 app.use("/api/itineraries", itineraryRoutes);
 
+if (!process.env.MONGODB_URI) {
+  console.error("FATAL: MONGODB_URI environment variable is not set");
+  process.exit(1);
+}
+
 mongoose
-  .connect(process.env.MONGODB_URI as string)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB connected");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
